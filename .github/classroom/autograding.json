@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Do Card and Deck Run?",
+      "setup": "",
+      "run": "gradle test",
+      "input": "",
+      "output": "BUILD SUCCESSFUL",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 50
+    }
+  ]
+}
