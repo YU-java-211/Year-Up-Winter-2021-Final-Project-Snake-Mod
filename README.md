@@ -2,7 +2,7 @@
 
 ## Our mods are as follows: 
 
-## Possible mods
+### Possible mods
 * Having score count
 * Maze levels
 * We could make it change colors depending on how many times its eaten a thing
