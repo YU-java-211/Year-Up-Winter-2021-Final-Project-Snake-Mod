@@ -1,7 +1,7 @@
 import javax.swing.Timer;
 public class Speed {
-	public int setDelay(Timer timer, int DELAY) {
-		DELAY = DELAY-2;
+	public int setDelay(Timer timer, int DELAY, int timerDecrement) {
+		DELAY = DELAY-timerDecrement;
 		timer.setInitialDelay(DELAY);
 		return DELAY;
 	}
