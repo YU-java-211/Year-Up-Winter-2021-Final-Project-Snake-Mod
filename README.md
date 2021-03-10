@@ -1,6 +1,6 @@
 
-## Music/Sound Mod
-* Used to create any now sound objects 🔈
+# Music/Sound Mod
+* Used to create any new sound objects 🔈
 
 * To use you must create a String   variable  with a unique name and store sound/music file path here
 
