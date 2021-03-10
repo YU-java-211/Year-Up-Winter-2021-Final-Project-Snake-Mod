@@ -4,13 +4,13 @@
 
 * To use you must create a String   variable  with a unique name and store sound/music file path here
 
-```String exampleSoundPath = "src/resources/example.wav";```
+`String exampleSoundPath = "src/resources/example.wav";`
 
 * Next you need a new "Music" object
 
-Music example = new Music();
+`Music example = new Music();`
 
-Sound file requirements ‼️ :
+###Sound file requirements ‼️ :
 File format: .wav
 Sample rate: 48k
 Bit depth: 16 Bit integer
