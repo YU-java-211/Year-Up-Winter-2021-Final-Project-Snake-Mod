@@ -15,16 +15,7 @@
 * ### Sample rate: 48k
 * ### Bit depth: 16 Bit integer
 
-          
+# Video Demo 
+https://user-images.githubusercontent.com/72459744/110593296-3e62ae80-8130-11eb-9cc3-42fb38d8df55.mp4
 
-## The base for this code is from https://github.com/janbodnar/Java-Snake-Game
 
-## Our mods are as follows: 
-
-### Possible mods
-* Having score count
-* Maze levels
-* We could make it change colors depending on how many times its eaten a thing
-* Timed rounds
-* Snake should be faster on higher levels
-* 
