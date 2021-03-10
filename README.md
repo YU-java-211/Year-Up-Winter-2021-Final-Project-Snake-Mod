@@ -18,4 +18,10 @@
 # Video Demo 
 https://user-images.githubusercontent.com/72459744/110593296-3e62ae80-8130-11eb-9cc3-42fb38d8df55.mp4
 
+## Current sounds implemented
+
+* Dot collection
+* Crashing into self
+* Crashing into wall/ leaving bounds
+* Game over music
 
