@@ -40,11 +40,18 @@ public class Board extends JPanel implements ActionListener {
     private Image apple;
     private Image head;
 
+    String aEatSound = "src/resources/apple.wav";
+    Music appleEat = new Music();
+    String gOverSound = "src/resources/gameOver.wav";
+    Music gameOver = new Music();
+    String hSound = "src/resources/hit.wav";
+    Music hit = new Music();
+
     public Board() {
-        
+
         initBoard();
     }
-    
+
     private void initBoard() {
 
         addKeyListener(new TAdapter());
@@ -76,7 +83,7 @@ public class Board extends JPanel implements ActionListener {
             x[z] = 50 - z * 10;
             y[z] = 50;
         }
-        
+
         locateApple();
 
         timer = new Timer(DELAY, this);
@@ -89,9 +96,9 @@ public class Board extends JPanel implements ActionListener {
 
         doDrawing(g);
     }
-    
+
     private void doDrawing(Graphics g) {
-        
+
         if (inGame) {
 
             g.drawImage(apple, apple_x, apple_y, this);
@@ -108,12 +115,14 @@ public class Board extends JPanel implements ActionListener {
 
         } else {
 
+            gameOver.playSound(gOverSound);
             gameOver(g);
-        }        
+
+        }
     }
 
     private void gameOver(Graphics g) {
-        
+
         String msg = "Game Over";
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metr = getFontMetrics(small);
@@ -127,6 +136,7 @@ public class Board extends JPanel implements ActionListener {
 
         if ((x[0] == apple_x) && (y[0] == apple_y)) {
 
+            appleEat.playSound(aEatSound);
             dots++;
             locateApple();
         }
@@ -162,25 +172,30 @@ public class Board extends JPanel implements ActionListener {
 
             if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
                 inGame = false;
+                hit.playSound(hSound);
             }
         }
 
         if (y[0] >= B_HEIGHT) {
             inGame = false;
+            hit.playSound(hSound);
         }
 
         if (y[0] < 0) {
             inGame = false;
+            hit.playSound(hSound);
         }
 
         if (x[0] >= B_WIDTH) {
             inGame = false;
+            hit.playSound(hSound);
         }
 
         if (x[0] < 0) {
             inGame = false;
+            hit.playSound(hSound);
         }
-        
+
         if (!inGame) {
             timer.stop();
         }
