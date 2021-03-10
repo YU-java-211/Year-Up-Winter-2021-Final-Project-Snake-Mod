@@ -35,7 +35,9 @@
    - Mohamad 
    - Yahya 
 
-* Timed rounds 
+* Timed rounds (timer at the top, snake dies if doesn't make it, figure out what the snake needs to do in that time)
+- Mark
+- Raphael
    * We could make it change colors depending on how many times its eaten a thing
    * change colors depending on how much time is left
 
