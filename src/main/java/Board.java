@@ -16,8 +16,8 @@ import java.util.Random;
 
 public class Board extends JPanel implements ActionListener {
 
-    private final int B_WIDTH = 600;
-    private final int B_HEIGHT = 600;
+    private final int B_WIDTH = 300;
+    private final int B_HEIGHT = 300;
     private final int DOT_SIZE = 10;
     private final int ALL_DOTS = (B_WIDTH * B_HEIGHT)/DOT_SIZE;
     private int DELAY = 140;
@@ -39,12 +39,10 @@ public class Board extends JPanel implements ActionListener {
     private Image ball;
     private Image apple;
     private Image head;
-	
-	private Random random = new Random();
 	private String score;
+	private Random random = new Random();
 	private String speed;
-	private String highscore = "";
-	private int highScoreCheck, scoreCheck;
+	private Speed timerSpeed = new Speed();
 
     
     public Board() {
@@ -100,20 +98,17 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void doDrawing(Graphics g) {
-		if(highscore.equalsIgnoreCase("")) {
-		        	highscore = Score.getHighScore();
-		}
+		
         if (inGame) {
-        	Font small = new Font("Helvetica", Font.BOLD, 14);
+        	Font small = new Font("Helvetica", Font.BOLD, 12);
             FontMetrics metr = getFontMetrics(small);
 
             g.setColor(Color.white);
             g.setFont(small);
         	score = String.valueOf((dots-3)*10);
-        	//speed = String.valueOf(140 - timer.getDelay());
+        	speed = String.valueOf(140 - timer.getDelay());
         	g.drawString("Current score : " + score, 0, 20);
-        	//g.drawString("Current speed : " + speed, 140, 20);
-        	g.drawString("Highscore : " + highscore, 280, 20);
+        	g.drawString("Current speed : " + speed, 140, 20);
             g.drawImage(apple, apple_x, apple_y, this);
 
             for (int z = 0; z < dots; z++) {
@@ -148,9 +143,8 @@ public class Board extends JPanel implements ActionListener {
 
         if ((x[0] == apple_x) && (y[0] == apple_y)) {
             
-            //timer.setInitialDelay(DELAY--);
-            //timer.setDelay(DELAY--);
-            //timer.start();
+            DELAY = timerSpeed.setDelay(timer, DELAY, 2);
+        	timerSpeed.updateTimer(timer, DELAY);
             
             dots++;
             locateApple();
@@ -182,36 +176,25 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void checkCollision() {
-        highScoreCheck = Integer.parseInt((highscore.split(":")[1]));
-    	scoreCheck = Integer.parseInt(score);
+        
         for (int z = dots; z > 0; z--) {
 
             if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
                 inGame = false;
-                
-                Score.checkScore(scoreCheck, highScoreCheck);
             }
         }
 
         if (y[0] >= B_HEIGHT) {
-            inGame = false;
-            Score.checkScore(scoreCheck, highScoreCheck);
-        }
+            inGame = false;}
 
         if (y[0] < 0) {
-            inGame = false;
-            Score.checkScore(scoreCheck, highScoreCheck);
-        }
+            inGame = false;}
 
         if (x[0] >= B_WIDTH) {
-            inGame = false;
-            Score.checkScore(scoreCheck, highScoreCheck);
-        }
+            inGame = false;}
 
         if (x[0] < 0) {
-            inGame = false;
-            Score.checkScore(scoreCheck, highScoreCheck);
-        }
+            inGame = false;}
 
         if (!inGame) {
             timer.stop();
