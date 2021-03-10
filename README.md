@@ -32,7 +32,7 @@
 * Having score count - Alejandro implemented
    * Scoreboard (who has won what - top 10 scores) -> storage (grab score, have user enter a name, if greater than any of the top 10 scores, save to a file, and display at the end of the game)
    - Emmanuel
-   - Mohamad 
+   - Muhamad 
    - Yahya 
 
 * Timed rounds (timer at the top, snake dies if doesn't make it, figure out what the snake needs to do in that time)
