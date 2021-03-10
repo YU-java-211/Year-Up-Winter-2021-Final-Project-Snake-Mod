@@ -10,10 +10,10 @@
 
 `Music example = new Music();`
 
-### Sound file requirements ‼️ :
-File format: .wav
-Sample rate: 48k
-Bit depth: 16 Bit integer
+## Sound file requirements ‼️ :
+* ### File format: .wav
+* ### Sample rate: 48k
+* ### Bit depth: 16 Bit integer
 
           
 
