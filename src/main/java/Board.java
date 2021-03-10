@@ -12,15 +12,15 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.util.Random;
 
 public class Board extends JPanel implements ActionListener {
 
-    private final int B_WIDTH = 300;
-    private final int B_HEIGHT = 300;
+    private final int B_WIDTH = 600;
+    private final int B_HEIGHT = 600;
     private final int DOT_SIZE = 10;
-    private final int ALL_DOTS = 900;
-    private final int RAND_POS = 29;
-    private final int DELAY = 140;
+    private final int ALL_DOTS = (B_WIDTH * B_HEIGHT)/DOT_SIZE;
+    private int DELAY = 140;
 
     private final int x[] = new int[ALL_DOTS];
     private final int y[] = new int[ALL_DOTS];
@@ -39,14 +39,14 @@ public class Board extends JPanel implements ActionListener {
     private Image ball;
     private Image apple;
     private Image head;
+	
+	private Random random = new Random();
+	private String score;
+	private String speed;
+	private String highscore = "";
+	private int highScoreCheck, scoreCheck;
 
-    String aEatSound = "src/resources/apple.wav";
-    Music appleEat = new Music();
-    String gOverSound = "src/resources/gameOver.wav";
-    Music gameOver = new Music();
-    String hSound = "src/resources/hit.wav";
-    Music hit = new Music();
-
+    
     public Board() {
 
         initBoard();
@@ -61,7 +61,9 @@ public class Board extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         loadImages();
         initGame();
+        
     }
+    
 
     private void loadImages() {
 
@@ -98,9 +100,20 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void doDrawing(Graphics g) {
-
+		if(highscore.equalsIgnoreCase("")) {
+		        	highscore = Score.getHighScore();
+		}
         if (inGame) {
+        	Font small = new Font("Helvetica", Font.BOLD, 14);
+            FontMetrics metr = getFontMetrics(small);
 
+            g.setColor(Color.white);
+            g.setFont(small);
+        	score = String.valueOf((dots-3)*10);
+        	//speed = String.valueOf(140 - timer.getDelay());
+        	g.drawString("Current score : " + score, 0, 20);
+        	//g.drawString("Current speed : " + speed, 140, 20);
+        	g.drawString("Highscore : " + highscore, 280, 20);
             g.drawImage(apple, apple_x, apple_y, this);
 
             for (int z = 0; z < dots; z++) {
@@ -115,14 +128,13 @@ public class Board extends JPanel implements ActionListener {
 
         } else {
 
-            gameOver.playSound(gOverSound);
             gameOver(g);
 
         }
     }
 
     private void gameOver(Graphics g) {
-
+    	
         String msg = "Game Over";
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metr = getFontMetrics(small);
@@ -135,8 +147,11 @@ public class Board extends JPanel implements ActionListener {
     private void checkApple() {
 
         if ((x[0] == apple_x) && (y[0] == apple_y)) {
-
-            appleEat.playSound(aEatSound);
+            
+            //timer.setInitialDelay(DELAY--);
+            //timer.setDelay(DELAY--);
+            //timer.start();
+            
             dots++;
             locateApple();
         }
@@ -167,33 +182,35 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void checkCollision() {
-
+        highScoreCheck = Integer.parseInt((highscore.split(":")[1]));
+    	scoreCheck = Integer.parseInt(score);
         for (int z = dots; z > 0; z--) {
 
             if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
                 inGame = false;
-                hit.playSound(hSound);
+                
+                Score.checkScore(scoreCheck, highScoreCheck);
             }
         }
 
         if (y[0] >= B_HEIGHT) {
             inGame = false;
-            hit.playSound(hSound);
+            Score.checkScore(scoreCheck, highScoreCheck);
         }
 
         if (y[0] < 0) {
             inGame = false;
-            hit.playSound(hSound);
+            Score.checkScore(scoreCheck, highScoreCheck);
         }
 
         if (x[0] >= B_WIDTH) {
             inGame = false;
-            hit.playSound(hSound);
+            Score.checkScore(scoreCheck, highScoreCheck);
         }
 
         if (x[0] < 0) {
             inGame = false;
-            hit.playSound(hSound);
+            Score.checkScore(scoreCheck, highScoreCheck);
         }
 
         if (!inGame) {
@@ -203,11 +220,9 @@ public class Board extends JPanel implements ActionListener {
 
     private void locateApple() {
 
-        int r = (int) (Math.random() * RAND_POS);
-        apple_x = ((r * DOT_SIZE));
+        apple_x = random.nextInt((int)(B_WIDTH/DOT_SIZE))*DOT_SIZE;
 
-        r = (int) (Math.random() * RAND_POS);
-        apple_y = ((r * DOT_SIZE));
+        apple_y = random.nextInt((int)(B_HEIGHT/DOT_SIZE))*DOT_SIZE;
     }
 
     @Override
