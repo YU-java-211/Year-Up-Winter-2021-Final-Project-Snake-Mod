@@ -1,7 +1,19 @@
 
+## Music/Sound Mod
+* Used to create any now sound objects 🔈
 
-https://user-images.githubusercontent.com/72459744/110591947-85e83b00-812e-11eb-87ae-72c5368ddb00.mp4
+* To use you must create a String   variable  with a unique name and store sound/music file path here
 
+String exampleSoundPath = "src/resources/example.wav";
+
+* Next you need a new "Music" object
+
+Music example = new Music();
+
+Sound file requirements ‼️ :
+File format: .wav
+Sample rate: 48k
+Bit depth: 16 Bit integer
 
           
 
