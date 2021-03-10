@@ -4,7 +4,7 @@
 
 * To use you must create a String   variable  with a unique name and store sound/music file path here
 
-String exampleSoundPath = "src/resources/example.wav";
+```String exampleSoundPath = "src/resources/example.wav";```
 
 * Next you need a new "Music" object
 
