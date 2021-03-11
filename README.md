@@ -25,3 +25,8 @@ https://user-images.githubusercontent.com/72459744/110593296-3e62ae80-8130-11eb-
 * Crashing into wall/ leaving bounds
 * Game over music
 
+## Sounds to implement
+
+* Start up song/sound
+* High score sound/song
+* Win sound/song
