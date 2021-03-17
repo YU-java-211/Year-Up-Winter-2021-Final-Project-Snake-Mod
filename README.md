@@ -47,3 +47,6 @@
 * Snake should be faster on higher levels - Alejandro implemented a current speed.
 * Graphics Upgrade - Maria
 * Sound Effects - (done) Could expand more Alejandro
+* Pause Menu - Alejandro implemented 
+* ---- Adam will expand more on pause menu adding volume control (and way to quit possibly?)
+ 
