@@ -1,4 +1,3 @@
-package main.java;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,6 +16,10 @@ import javax.swing.Timer;
 
 public class Board extends JPanel implements ActionListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private final int B_WIDTH = 300;
     private final int B_HEIGHT = 300;
     private final int DOT_SIZE = 10;
@@ -42,11 +45,15 @@ public class Board extends JPanel implements ActionListener {
     private Image apple;
     private Image head;
 
+    // Pause Menu
+    private boolean stopped = false;
+    private PauseMenu scene = new PauseMenu(B_WIDTH, B_HEIGHT);
+
     public Board() {
-        
+
         initBoard();
     }
-    
+
     private void initBoard() {
 
         addKeyListener(new TAdapter());
@@ -78,7 +85,7 @@ public class Board extends JPanel implements ActionListener {
             x[z] = 50 - z * 10;
             y[z] = 50;
         }
-        
+
         locateApple();
 
         timer = new Timer(DELAY, this);
@@ -91,10 +98,10 @@ public class Board extends JPanel implements ActionListener {
 
         doDrawing(g);
     }
-    
+
     private void doDrawing(Graphics g) {
-        
-        if (inGame) {
+
+        if ((inGame) && (!stopped)) {
 
             g.drawImage(apple, apple_x, apple_y, this);
 
@@ -108,14 +115,17 @@ public class Board extends JPanel implements ActionListener {
 
             Toolkit.getDefaultToolkit().sync();
 
+        } else if ((inGame) && (stopped)) {
+            scene.gamePause(g);
+            timer.stop();
         } else {
 
             gameOver(g);
-        }        
+        }
     }
 
     private void gameOver(Graphics g) {
-        
+
         String msg = "Game Over";
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metr = getFontMetrics(small);
@@ -182,7 +192,7 @@ public class Board extends JPanel implements ActionListener {
         if (x[0] < 0) {
             inGame = false;
         }
-        
+
         if (!inGame) {
             timer.stop();
         }
@@ -239,6 +249,16 @@ public class Board extends JPanel implements ActionListener {
                 downDirection = true;
                 rightDirection = false;
                 leftDirection = false;
+            }
+            if ((key == KeyEvent.VK_ESCAPE) && (inGame) && (!stopped)) {
+
+                stopped = true;
+
+            } else if ((key == KeyEvent.VK_ESCAPE) && (inGame) && (stopped)) {
+
+                stopped = false;
+                timer.start();
+
             }
         }
     }
