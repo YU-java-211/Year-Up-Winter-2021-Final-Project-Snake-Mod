@@ -1,6 +1,7 @@
-package main.java;
 
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,53 +9,28 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
-
 public class SnakeTimedStage extends Board {
-	Timer timer;
-	int second;
-	JFrame window;
-	JLabel counterLabel;
-	Font font1 = new Font("Arial", Font.PLAIN, 70);
 	
-	public static void main(String[] args) {
-		new Board();
-	}
-	public void Board() {
-		window = new JFrame();
-		window.setSize(800,600);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setLayout(null);
-		
-		counterLabel = new JLabel("");
-		counterLabel.setBounds(300,230,200,100);;
-		counterLabel.setHorizontalAlignment(JLabel.CENTER);
-		counterLabel.setFont(font1);
-		
-		window.add(counterLabel);
-		window.setVisible(true);
-		
-		counterLabel.setText("45");
-		second = 45;
-		simpleTimer();
-		timer.start();
-	}
+    private void doDrawing(Graphics g) {
+        
+        if (inGame) {
+
+            g.drawImage(apple, apple_x, apple_y, this);
+
+            for (int z = 0; z < dots; z++) {
+                if (z == 0) {
+                    g.drawImage(head, x[z], y[z], this);
+                } else {
+                    g.drawImage(ball, x[z], y[z], this);
+                }
+            }
+
+            Toolkit.getDefaultToolkit().sync();
+
+        } else {
+
+            gameOver(g);
+        }        
+    }
 	
-	
-	public void simpleTimer() {
-		timer = new Timer (1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				second--;
-				counterLabel.setText(""+second);
-				
-				if(second==0) {
-					timer.stop();
-				}
-			}
-		}); 
-	}
 }
-
-	
-	
-
