@@ -6,8 +6,9 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.io.File;
 import java.io.IOException;
+
+
 
 
 
@@ -28,7 +29,7 @@ protected void doDrawing(Graphics g) {
         
         if (inGame) {
         	// GRAB AND WRITE OUT TO FILE TO SET DIRECTORY
-        	
+        	try {
         	FileWriter writer = new FileWriter("pointsLivesDate.txt", false);
         	
             g.drawImage(apple, apple_x, apple_y, this);
@@ -38,11 +39,14 @@ protected void doDrawing(Graphics g) {
             		writer.write(points + "|" + lives);
             		//Show YAY! screen
             		yayNextLevel(g);
-            	}//return file name
-            	
+            	}
+            	//return file name
             		writer.close();
-            	
-        	}
+            	}catch (IOException e) {
+            		e.printStackTrace();
+            	}
+        	
+        
         
             for (int z = 0; z < dots; z++) {
                 if (z == 0) {
@@ -50,15 +54,19 @@ protected void doDrawing(Graphics g) {
                 } else {
                     g.drawImage(ball, x[z], y[z], this);
                 }
+                
             }
-
+            
             Toolkit.getDefaultToolkit().sync();
-
+        	
         } else {
         	
             gameOver(g);
-        }        
-    }
+        }
+        
+	}
+
+
 
 	protected void yayNextLevel(Graphics g) {
 	    
@@ -84,4 +92,3 @@ protected void doDrawing(Graphics g) {
 	
 }
     
-
