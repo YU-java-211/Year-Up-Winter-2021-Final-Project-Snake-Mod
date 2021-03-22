@@ -13,9 +13,9 @@ import java.io.IOException;
 
 public class NewLevel  extends Board {
 
-    private int appleCount = 0;
-    private int lives;
-    private int points;
+    protected int appleCount = 0;
+    protected int lives;
+    protected int points;
     
     
 	public NewLevel(int lives, int points) {
@@ -24,7 +24,7 @@ public class NewLevel  extends Board {
 	}
 	    
 	
-private void doDrawing(Graphics g) {
+protected void doDrawing(Graphics g) {
         
         if (inGame) {
         	// GRAB AND WRITE OUT TO FILE TO SET DIRECTORY
@@ -63,7 +63,7 @@ private void doDrawing(Graphics g) {
         }        
     }
 
-	private void yayNextLevel(Graphics g) {
+	protected void yayNextLevel(Graphics g) {
 	    
 	    String msg = "Yay!";
 	    Font small = new Font("Helvetica", Font.BOLD, 14);
@@ -74,7 +74,7 @@ private void doDrawing(Graphics g) {
 	    g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
 	}
 
-    private void checkApple() {
+    protected void checkApple() {
 
         if ((x[0] == apple_x) && (y[0] == apple_y)) {
 
