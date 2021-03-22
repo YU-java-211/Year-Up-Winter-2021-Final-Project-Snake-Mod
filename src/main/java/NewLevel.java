@@ -28,23 +28,20 @@ protected void doDrawing(Graphics g) {
         
         if (inGame) {
         	// GRAB AND WRITE OUT TO FILE TO SET DIRECTORY
-        	try {
+        	
         	FileWriter writer = new FileWriter("pointsLivesDate.txt", false);
         	
             g.drawImage(apple, apple_x, apple_y, this);
-        	}catch (Exception e) {}
-        	finally {
+        	
             	if(appleCount > 9) {
             		//Write out variables to text file (points, lives, date/time)
             		writer.write(points + "|" + lives);
             		//Show YAY! screen
             		yayNextLevel(g);
             	}//return file name
-            	try {
+            	
             		writer.close();
-            	}catch (IOException e) {
-					e.printStackTrace();
-            	}
+            	
         	}
         
             for (int z = 0; z < dots; z++) {
