@@ -4,8 +4,8 @@ import java.awt.Graphics;
 
 public class Score {
 	Font font;
-	private int points;
-	private int timesIncremented;
+	protected int points;
+	protected int timesIncremented;
 	
 	public Score () {
 		points = 0;
