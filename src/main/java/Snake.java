@@ -15,7 +15,7 @@ public class Snake extends JFrame {
     
     
     
-    private void firstLevelUI() {
+    protected void firstLevelUI() {
     	String points = "";
     	try {
     	File file = new File("pointsLivesDate.txt");
