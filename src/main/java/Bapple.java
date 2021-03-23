@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 public class Bapple extends Board {
-	private int bapple_x;
+    private int bapple_x;
     private int bapple_y;
     private Image bapple;
     
