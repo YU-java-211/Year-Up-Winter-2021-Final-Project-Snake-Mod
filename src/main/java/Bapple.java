@@ -112,7 +112,7 @@ public class Bapple extends Board {
 		
 	   protected void checkBapple() {
 	
-	        if ((x[0] == apple_x) && (y[0] == apple_y)) {
+	        if ((x[0] == bapple_x) && (y[0] == bapple_y)) {
 	
 	            timer.stop();
 	        }
