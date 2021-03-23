@@ -1,4 +1,3 @@
-package main.java;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,7 +16,11 @@ import javax.swing.Timer;
 
 public class Board extends JPanel implements ActionListener {
 
-    protected final int B_WIDTH = 300;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected final int B_WIDTH = 300;
     protected final int B_HEIGHT = 300;
     protected final int DOT_SIZE = 10;
     protected final int ALL_DOTS = 900;

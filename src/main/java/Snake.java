@@ -1,11 +1,16 @@
-package main.java;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 public class Snake extends JFrame {
 
-    public Snake() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1503268438955605275L;
+
+
+	public Snake() {
         
         initUI();
     }
