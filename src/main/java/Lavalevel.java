@@ -146,7 +146,7 @@ public class Lavalevel extends JPanel implements ActionListener {
 
             dots++;
             locateApple();
-            locateLava();
+            
         }
     }
 
