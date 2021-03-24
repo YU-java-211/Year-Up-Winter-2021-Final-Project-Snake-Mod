@@ -3,21 +3,21 @@ package main.java;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
-public class Snake extends JFrame {
+public class Mongoose extends JFrame {
 
-    public Snake() {
+    public Mongoose() {
         
         initUI();
     }
     
     private void initUI() {
         
-        add(new Board());
+        add(new Mongoose_lvl());
                
         setResizable(false);
         pack();
         
-        setTitle("Snake");
+        setTitle("Mongoose");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -26,7 +26,7 @@ public class Snake extends JFrame {
     public static void main(String[] args) {
         
         EventQueue.invokeLater(() -> {
-            JFrame ex = new Snake();
+            JFrame ex = new Mongoose();
             ex.setVisible(true);
         });
     }

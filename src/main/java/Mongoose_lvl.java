@@ -15,48 +15,50 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Board extends JPanel implements ActionListener {
+public class Mongoose_lvl extends JPanel implements ActionListener {
 
-    protected final int B_WIDTH = 300;
-    protected final int B_HEIGHT = 300;
-    protected final int DOT_SIZE = 10;
-    protected final int ALL_DOTS = 900;
-    protected final int RAND_POS = 29;
-    protected final int DELAY = 140;
+    private final int B_WIDTH = 300;
+    private final int B_HEIGHT = 300;
+    private final int DOT_SIZE = 10;
+    private final int ALL_DOTS = 900;
+    private final int RAND_POS = 29;
+    private final int DELAY = 140;//140 was default  This will make the game faster the lower the value is
 
-    protected final int x[] = new int[ALL_DOTS];
-    protected final int y[] = new int[ALL_DOTS];
+    private final int x[] = new int[ALL_DOTS];
+    private final int y[] = new int[ALL_DOTS];
 
-    protected int dots;
-    protected int apple_x;
-    protected int apple_y;
+    private int dots;
+    private int apple_x;
+    private int apple_y;
+    //---------------------------------
+    private int mongoose_x =100;
+    private int mongoose_y = 100;
+    private int mongooseSpeed=2; //This will halve the speed
+    
+    //---------------------------------
+    
+    private boolean leftDirection = false;
+    private boolean rightDirection = true;
+    private boolean upDirection = false;
+    private boolean downDirection = false;
+    private boolean inGame = true;
 
-    protected boolean leftDirection = false;
-    protected boolean rightDirection = true;
-    protected boolean upDirection = false;
-    protected boolean downDirection = false;
-    protected boolean inGame = true;
+    private Timer timer;
+    private Image ball;
+    private Image apple;
+    private Image head;
+    
+    //-------------------------------------
+    private Image mongooseHead;
+    //-------------------------------------
+    
 
-    protected Timer timer;
-    protected Image ball;
-    protected Image apple;
-    protected Image head;
-
-    String aEatSound = "src/resources/apple.wav";
-    Music appleEat = new Music();
-    String gOverSound = "src/resources/gameOver.wav";
-    Music gameOver = new Music();
-    String hSound = "src/resources/hit.wav";
-    Music hit = new Music();
-
-    public Board() {
-
+    public Mongoose_lvl() {
+        
         initBoard();
     }
-
     
-    protected void initBoard() {
-
+    private void initBoard() {
 
         addKeyListener(new TAdapter());
         setBackground(Color.black);
@@ -67,7 +69,7 @@ public class Board extends JPanel implements ActionListener {
         initGame();
     }
 
-    protected void loadImages() {
+    private void loadImages() {
 
         ImageIcon iid = new ImageIcon("src/resources/dot.png");
         ball = iid.getImage();
@@ -77,9 +79,14 @@ public class Board extends JPanel implements ActionListener {
 
         ImageIcon iih = new ImageIcon("src/resources/head.png");
         head = iih.getImage();
+        
+        //-----------------------------------------------------
+        ImageIcon iim = new ImageIcon("src/resources/head.png");
+        mongooseHead = iim.getImage();
+        
     }
 
-    protected void initGame() {
+    private void initGame() {
 
         dots = 3;
 
@@ -87,7 +94,7 @@ public class Board extends JPanel implements ActionListener {
             x[z] = 50 - z * 10;
             y[z] = 50;
         }
-
+        
         locateApple();
 
         timer = new Timer(DELAY, this);
@@ -100,9 +107,8 @@ public class Board extends JPanel implements ActionListener {
 
         doDrawing(g);
     }
-
     
-    protected void doDrawing(Graphics g) {
+    private void doDrawing(Graphics g) {
         
         if (inGame) {
 
@@ -115,19 +121,21 @@ public class Board extends JPanel implements ActionListener {
                     g.drawImage(ball, x[z], y[z], this);
                 }
             }
-
+            	
+            g.drawImage(mongooseHead, mongoose_x, mongoose_y, this);
+            
             Toolkit.getDefaultToolkit().sync();
+            
+            
 
         } else {
 
-            gameOver.playSound(gOverSound);
             gameOver(g);
-
-        }
+        }        
     }
 
-    protected void gameOver(Graphics g) {
- 
+    private void gameOver(Graphics g) {
+        
         String msg = "Game Over";
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metr = getFontMetrics(small);
@@ -137,17 +145,27 @@ public class Board extends JPanel implements ActionListener {
         g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
     }
 
-    protected void checkApple() {
+    private void checkApple() {
 
         if ((x[0] == apple_x) && (y[0] == apple_y)) {
 
-            appleEat.playSound(aEatSound);
             dots++;
             locateApple();
         }
     }
-
-    protected void move() {
+ //-----------------------------------------------------------------------------------
+    private void checkMongoose() {
+    	if ((x[0] == mongoose_x) && (y[0] == mongoose_y)) {
+    		inGame =false;
+            //locateMongoose();
+        }
+    	else {
+    		locateMongoose();
+    		
+    	}
+    }
+//----------------------------------------------------------------------------------
+    private void move() {
 
         for (int z = dots; z > 0; z--) {
             x[z] = x[(z - 1)];
@@ -171,42 +189,38 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-    protected void checkCollision() {
+    private void checkCollision() {
 
         for (int z = dots; z > 0; z--) {
 
             if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
                 inGame = false;
-                hit.playSound(hSound);
             }
         }
 
         if (y[0] >= B_HEIGHT) {
             inGame = false;
-            hit.playSound(hSound);
         }
 
         if (y[0] < 0) {
             inGame = false;
-            hit.playSound(hSound);
         }
 
         if (x[0] >= B_WIDTH) {
             inGame = false;
-            hit.playSound(hSound);
         }
 
         if (x[0] < 0) {
             inGame = false;
-            hit.playSound(hSound);
         }
-
+        
         if (!inGame) {
             timer.stop();
         }
+
     }
 
-    protected void locateApple() {
+    private void locateApple() {
 
         int r = (int) (Math.random() * RAND_POS);
         apple_x = ((r * DOT_SIZE));
@@ -214,6 +228,31 @@ public class Board extends JPanel implements ActionListener {
         r = (int) (Math.random() * RAND_POS);
         apple_y = ((r * DOT_SIZE));
     }
+    //------------------------------------------------
+    
+     private void locateMongoose() {
+    	 
+    	if(mongoose_x< x[0]) {
+    		 mongoose_x += DOT_SIZE/mongooseSpeed;
+    		 
+    	 }
+    	
+    	else {
+    		 mongoose_x -= DOT_SIZE/mongooseSpeed;
+    	 }
+    	 if(mongoose_y< y[0]) {
+    		 mongoose_y += DOT_SIZE/mongooseSpeed;
+    		 
+    	 }
+    	 else {
+    		 mongoose_y -= DOT_SIZE/mongooseSpeed;
+    	 }
+    	 
+    	 
+     }
+    	
+    
+    //--------------------------------------------
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -223,12 +262,14 @@ public class Board extends JPanel implements ActionListener {
             checkApple();
             checkCollision();
             move();
+            //----------------------------------------
+            checkMongoose();
         }
 
         repaint();
     }
 
-    protected class TAdapter extends KeyAdapter {
+    public class TAdapter extends KeyAdapter {
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -258,6 +299,8 @@ public class Board extends JPanel implements ActionListener {
                 rightDirection = false;
                 leftDirection = false;
             }
+            
         }
     }
 }
+
