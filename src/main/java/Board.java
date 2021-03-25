@@ -23,12 +23,13 @@ import javax.swing.JTextField;
 
 public class Board extends JPanel implements ActionListener {
 	
-	protected static final long serialVersionUID = 1L;
+    protected static final long serialVersionUID = 1L;
     protected final int B_WIDTH = 600;
     protected final int B_HEIGHT = 600;
     protected final int DOT_SIZE = 10;
     protected final int ALL_DOTS = (B_WIDTH * B_HEIGHT)/DOT_SIZE;
     protected int DELAY = 140;
+    protected final int RAND_POS = 29;
 
     protected final int x[] = new int[ALL_DOTS];
     protected final int y[] = new int[ALL_DOTS];
