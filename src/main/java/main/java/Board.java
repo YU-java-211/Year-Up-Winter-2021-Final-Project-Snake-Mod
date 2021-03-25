@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,15 +16,19 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.util.Random;
+
+import javax.swing.JButton;
+import javax.swing.JTextField;
 
 public class Board extends JPanel implements ActionListener {
-
-    protected final int B_WIDTH = 300;
-    protected final int B_HEIGHT = 300;
+	
+	protected static final long serialVersionUID = 1L;
+    protected final int B_WIDTH = 600;
+    protected final int B_HEIGHT = 600;
     protected final int DOT_SIZE = 10;
-    protected final int ALL_DOTS = 900;
-    protected final int RAND_POS = 29;
-    protected final int DELAY = 140;
+    protected final int ALL_DOTS = (B_WIDTH * B_HEIGHT)/DOT_SIZE;
+    protected int DELAY = 140;
 
     protected final int x[] = new int[ALL_DOTS];
     protected final int y[] = new int[ALL_DOTS];
@@ -41,10 +47,55 @@ public class Board extends JPanel implements ActionListener {
     protected Image ball;
     protected Image apple;
     protected Image head;
+    
+    protected Random random = new Random();
+    protected String score;
+    protected String speed;
+    protected String highscore = "";
+    protected int highScoreCheck, scoreCheck;
+    protected Speed timerSpeed = new Speed();
+    
+    
 
     public Board() {
         
         initBoard();
+        
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        JTextField field = new JTextField(4);
+        add(field, gbc);
+
+        JButton btn = new JButton("Start");
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (timer.isRunning()) {
+                    timer.stop();
+                    btn.setText("Start");
+                } else {
+                    int counter = 0;
+                    timer.start();
+                    field.setText(Integer.toString(counter));
+                    btn.setText("Stop");
+                }
+            }
+        });
+        add(btn, gbc);
+
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int counter = 0;
+                counter++;
+                if (counter >= 60) {
+                    timer.stop();
+                    btn.setText("Start");
+                }
+                field.setText(Integer.toString(counter));
+            }
+        });
     }
     
     protected void initBoard() {
@@ -93,8 +144,22 @@ public class Board extends JPanel implements ActionListener {
     }
     
     protected void doDrawing(Graphics g) {
+    	
+    	if(highscore.equalsIgnoreCase("")) {
+        	highscore = Score.getHighScore();
+    	}
         
         if (inGame) {
+        	
+        	Font small = new Font("Helvetica", Font.BOLD, 14);
+
+            g.setColor(Color.white);
+            g.setFont(small);
+        	score = String.valueOf((dots-3)*10);
+        	//speed = String.valueOf(140 - timer.getDelay());
+        	g.drawString("Current score : " + score, 0, 20);
+        	//g.drawString("Current speed : " + speed, 140, 20);
+        	g.drawString("Highscore : " + highscore, 280, 20);
 
             g.drawImage(apple, apple_x, apple_y, this);
 
@@ -128,6 +193,9 @@ public class Board extends JPanel implements ActionListener {
     protected void checkApple() {
 
         if ((x[0] == apple_x) && (y[0] == apple_y)) {
+        	
+        	DELAY = timerSpeed.setDelay(timer, DELAY, 2);
+        	timerSpeed.updateTimer(timer, DELAY);
 
             dots++;
             locateApple();
@@ -159,28 +227,37 @@ public class Board extends JPanel implements ActionListener {
     }
 
     protected void checkCollision() {
+    	
+    	highScoreCheck = Integer.parseInt((highscore.split(":")[1]));
+    	scoreCheck = Integer.parseInt(score);
 
         for (int z = dots; z > 0; z--) {
 
             if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
                 inGame = false;
+                
+                Score.checkScore(scoreCheck, highScoreCheck);
             }
         }
 
         if (y[0] >= B_HEIGHT) {
             inGame = false;
+            Score.checkScore(scoreCheck, highScoreCheck);
         }
 
         if (y[0] < 0) {
             inGame = false;
+            Score.checkScore(scoreCheck, highScoreCheck);
         }
 
         if (x[0] >= B_WIDTH) {
             inGame = false;
+            Score.checkScore(scoreCheck, highScoreCheck);
         }
 
         if (x[0] < 0) {
             inGame = false;
+            Score.checkScore(scoreCheck, highScoreCheck);
         }
         
         if (!inGame) {
@@ -190,11 +267,11 @@ public class Board extends JPanel implements ActionListener {
 
     protected void locateApple() {
 
-        int r = (int) (Math.random() * RAND_POS);
-        apple_x = ((r * DOT_SIZE));
+        
+        apple_x = random.nextInt((int)(B_WIDTH/DOT_SIZE))*DOT_SIZE;
 
-        r = (int) (Math.random() * RAND_POS);
-        apple_y = ((r * DOT_SIZE));
+       
+        apple_x = random.nextInt((int)(B_WIDTH/DOT_SIZE))*DOT_SIZE;
     }
 
     @Override
